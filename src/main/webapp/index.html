@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Payroll of the University of Crete</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+        <style>
+            html,
+            body {
+                min-height: 100%;
+            }
+
+            body,
+            div,
+            form,
+            input,
+            label {
+                padding: 0;
+                margin: 0;
+                outline: none;
+                font-family: Roboto, Arial, sans-serif;
+                font-size: 13px;
+                color: #666;
+                line-height: 22px;
+            }
+
+            legend {
+                color: #fff;
+                background-color: #095484;
+                padding: 3px 5px;
+                font-size: 20px;
+            }
+
+            h1 {
+                position: absolute;
+                margin: 0;
+                font-size: 36px;
+                color: #fff;
+                z-index: 2;
+            }
+
+            .testbox {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: inherit;
+                padding: 20px;
+            }
+
+            form {
+                width: 100%;
+                padding: 20px;
+                border-radius: 6px;
+                background: #fff;
+                box-shadow: 0 0 20px 0 #095484;
+            }
+
+            .dropdown {
+                width: 20%;
+                margin-top: 2%;
+                margin-left: 40%;
+                text-align: center;
+            }
+
+            .dropdown_form {
+                width: 20%;
+                margin-top: 2%;
+                margin-left: 0%;
+                text-align: center;
+            }
+
+            .banner {
+                position: relative;
+                height: 320px;
+                background-image: url("https://image.freepik.com/free-photo/wall-wallpaper-concrete-colored-painted-textured-concept_53876-31799.jpg");
+                background-size: cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .banner::after {
+                content: "";
+                background-color: rgba(0, 0, 0, 0.6);
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+
+            input {
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+
+            input {
+                width: calc(100% - 10px);
+                padding: 5px;
+            }
+
+            select {
+                width: 100%;
+                padding: 7px 0;
+                background: transparent;
+            }
+
+            input[type="date"] {
+                padding: 4px 5px;
+            }
+
+            .item:hover p,
+            .item:hover i,
+            .question:hover p,
+            .question label:hover,
+            input:hover::placeholder {
+                color: #095484;
+            }
+
+            .item input:hover {
+                border: 1px solid transparent;
+                box-shadow: 0 0 6px 0 #095484;
+                color: #095484;
+            }
+
+            .item {
+                position: relative;
+                margin: 10px 0;
+            }
+
+            .item span {
+                color: red;
+            }
+
+            input[type="date"]::-webkit-inner-spin-button {
+                display: none;
+            }
+
+            .item i,
+            input[type="date"]::-webkit-calendar-picker-indicator {
+                position: absolute;
+                font-size: 20px;
+                color: #095484;
+            }
+
+            .item i {
+                right: 2%;
+                top: 30px;
+                z-index: 1;
+            }
+
+            [type="date"]::-webkit-calendar-picker-indicator {
+                right: 1%;
+                z-index: 2;
+                opacity: 0;
+                cursor: pointer;
+            }
+
+            .question span {
+                margin-left: 30px;
+            }
+
+            .btn-block {
+                margin-top: 10px;
+                text-align: center;
+            }
+
+            button {
+                width: 150px;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background: #095484;
+                font-size: 16px;
+                color: #fff;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: #4286f4;
+            }
+
+            @media (min-width: 568px) {
+
+                .name-item,
+                .city-item {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                }
+
+                .name-item input,
+                .city-item input,
+                .name-item div {
+                    width: calc(50% - 20px);
+                }
+
+                .name-item div input {
+                    width: 97%;
+                }
+
+                .name-item div label {
+                    display: block;
+                    padding-bottom: 5px;
+                }
+            }
+        </style>
+        <script src="JS/Misc.js"></script>
+    </head>
+
+    <body onload="UpdateYears()">
+        <div class="testbox">
+            <form>
+                <div class="banner">
+                    <h1>Employment Verification Form</h1>
+                </div>
+
+                <select class="dropdown" id="dropdown" onchange="myFunction()">
+                    <option value="" disabled selected>Select Option</option>
+                    <option value="1">Add Employee</option>
+                    <option value="2">Fire Employee</option>
+                    <option value="3">Edit Employee</option>
+                    <option value="4">Promote Employee</option>
+                    <option value="5">Edit Bonus</option>
+                    <option value="6">Max-Min-Avg</option>
+                    <option value="7">User-Wage</option>
+                    <option value="8">Pay-Per-Category</option>
+                    <option value="9">Status-Pay-For-Months</option>
+                    <option value="10">Status-Pay-Per-Category</option>
+                    <option value="11">Summary-Pay-Per-Category</option>
+                    <option value="12">Get-Employees</option>
+                    <option value="13">SQL-Query</option>
+                </select>
+                <div id="results"></div>
+                
+                <p>Please fill out with the information that is requested below and submit the employment verification form.
+                    Thank you!</p>
+                <hr />
+                <br>
+
+                <!-- Add -->
+                <fieldset id="add" style="display: none;">
+                    <legend>Employee Information</legend>
+                    <form>
+                    <div class="item">  
+                        <label>Name<span>*</span></label>
+                        <div class="name-item">
+                            <input id="first_add" type="text" placeholder="First" required/>
+                            <input id="last_add" type="text" placeholder="Last" required/>
+                        </div> 
+
+                        <label>Children<span>*</span></label>
+                        <select class="dropdown_form" id="children_add" onchange="children_handler_add()">
+                            <option value="" disabled selected>Select Value</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+
+                        <label>Family Status<span>*</span></label>
+                        <select class="dropdown_form" id="status_add">
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                        </select>
+
+                        <label>Category<span>*</span></label>
+                        <select class="dropdown_form" id="category_add" onchange="end_date_Handler()">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Permanent Teacher">Permanent Teacher</option>
+                            <option value="Permanent Admin">Permanent Admin</option>
+                            <option value="Contract Teacher">Contract Teacher</option>
+                            <option value="Contract Admin">Contract Admin</option>
+                        </select>
+                    </div>
+
+                    <div class="item" id="basic_pay_add">
+                        <label>Basic Pay<span>*</span></label>
+                        <input id="pay_add" type="text" placeholder="Euros" required/>
+                    </div>
+
+                    <div class="item">
+                        <div id="ages_children_add"></div>
+                    </div>
+
+                    <div class="item">
+                        <label>Department<span>*</span></label>
+                        <input id="department_add" type="text" required/>
+                    </div>
+
+                    <div class="item">
+                        <label>Start Date<span>*</span></label>
+                        <input id="start_date_add" type="text" placeholder="dd-mm-yyyy" required/>
+                    </div>
+
+                    <div class="item" id="date_end" style="display: none;">
+                        <label>Contract Duration (Months)<span>*</span></label>
+                        <select class="dropdown_form" id="end_date_add" onchange="end_date_Handler()">
+                            <option value="0" disabled selected>Select value</option>
+                            <option value="1">1</option>
+                            <option value="3">3</option>
+                            <option value="6">6</option>
+                            <option value="9">9</option>
+                            <option value="12">12</option>
+                            <option value="24">24</option>
+                        </select>
+                    </div>
+
+                    <div class="item">
+                        <label>Address<span>*</span></label>
+                        <input id="address_add" type="text" required/>
+                    </div>
+
+                    <div class="item">
+                        <label>Telephone<span>*</span></label>
+                        <input id="telephone_add" type="text" required/>
+                    </div>
+
+                    <div class="item">
+                        <label>IBAN<span>*</span></label>
+                        <input id="iban_add" type="text" required/>
+                    </div>
+                        
+                    <div class="item">
+                        <label>Bank<span>*</span></label>
+                        <input id="bank_add" type="text" required/>
+                    </div>
+                        
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="AddUser()">APPLY</button>
+                            <div id="results_add"></div>
+                        </div>
+                    </fieldset>
+
+
+                </fieldset>
+
+                <!-- Fire -->
+                <fieldset id="fire" style="display: none;">
+                    <legend>Employee Dismissal</legend>
+                    <div class="item">
+                        <label>ID<span>*</span></label>
+                        <input id="userid_fire" type="text" required />
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="Delete()">DELETE</button>
+                            <div id="results_fire"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Edit -->
+                <fieldset id="edit" style="display: none;">
+                    <legend>Employee Information</legend>
+
+                    <div class="item">  
+
+                        <div class="item">
+                            <label >ID<span>*</span></label>
+                            <input id="userid_edit" type="text" required/>
+                        </div>
+
+                        <label>Children<span>*</span></label>
+                        <select class="dropdown_form" id="children_edit" onchange="children_handler_edit()">
+                            <option value="" disabled>Select Value</option>
+                            <option value="0" selected>0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+
+                        <label>Family Status<span>*</span></label>
+                        <select class="dropdown_form" id="status_edit">
+                            <option value="" disabled selected>Select Status</option>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                        </select>
+
+                    </div>
+
+                    <div class="item">
+                        <div id = "ages_children_edit"></div>
+                    </div>
+
+                    <div class="item">
+                        <label>Department<span>*</span></label>
+                        <input id="department_edit" type="text" required/>
+                    </div>
+
+                    <div class="item">
+                        <label>Address<span>*</span></label>
+                        <input id="address_edit" type="text" required/>
+                    </div>
+
+                    <div class="item">
+                        <label>Telephone<span>*</span></label>
+                        <input id="telephone_edit" type="text" required/>
+                    </div>
+
+                    <div class="item">
+                        <label>IBAN<span>*</span></label>
+                        <input id="iban_edit" type="text" required/>
+                    </div>
+
+                    <div class="item">
+                        <label>Bank<span>*</span></label>
+                        <input id="bank_edit" type="text" required/>
+                    </div>
+
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="UpdateUser()">EDIT</button>
+                            <div id="results_edit"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Bonus -->
+                <fieldset id="bonus" style="display: none;">
+                    <legend>Edit Bonus</legend>
+                    <div class="item">
+                        <label>Bonus<span>*</span></label>
+                        <select class="dropdown_form" id="dropdown_bonus">
+                            <option value="" disabled selected>Select Option</option>
+                            <option value="BWP">Basic Wage - Permanent</option>
+                            <option value="LB">Library Bonus</option>
+                            <option value="RB">Research Bonus</option>
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label >Value<span>*</span></label>
+                        <input id="value_bonus" type="text" required/>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="ChangeBonus()">CHANGE</button>
+                            <div id="results_bonus"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Promote -->
+                <fieldset id="promote" style="display: none;">
+                    <legend>Employee Promotion</legend>
+                    <div class="item">
+                        <label >ID<span>*</span></label>
+                        <input id="userid_promote" type="text" required/>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="Promote()">PROMOTE</button>
+                            <div id="results_promote"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- MAX - MIN - AVG -->
+                <fieldset id="maxminavg" style="display: none;">
+                    <legend>Max - Min - Avg Pay</legend>
+                    <div class="item">
+                        <label>Category<span>*</span></label>
+                        <select class="dropdown_form" id="category_MaxMinAvg">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Permanent Teacher">Permanent Teacher</option>
+                            <option value="Permanent Admin">Permanent Admin</option>
+                            <option value="Contract Teacher">Contract Teacher</option>
+                            <option value="Contract Admin">Contract Admin</option>
+                        </select>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="GetMaxMinAvg()">SUBMIT</button>
+                            <div id="results_MaxMinAvg"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- User-Wage -->
+                <fieldset id="user_wage" style="display: none;">
+                    <legend>User-Wage</legend>
+                    <div class="item">
+                        <label>ID<span>*</span></label>
+                        <input id="userid_user_wage" type="text" required/>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="GetUserWage()">SUBMIT</button>
+                            <div id="results_user_wage"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Pay Per Category -->
+                <fieldset id="pay_per_category" style="display: none;">
+                    <legend>Pay Per Category</legend>
+                    <div class="item">
+                        <label>Category<span>*</span></label>
+                        <select class="dropdown_form" id="category_pay_per_category">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Permanent Teacher">Permanent Teacher</option>
+                            <option value="Permanent Admin">Permanent Admin</option>
+                            <option value="Contract Teacher">Contract Teacher</option>
+                            <option value="Contract Admin">Contract Admin</option>
+                        </select>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="PayPerCategory()">SUBMIT</button>
+                            <div id="results_pay_per_category"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Sum Pay-->
+                <fieldset id="sum_pay" style="display: none;">
+                    <legend>Summary Pay Per Category</legend>
+                    <div class="item">
+                        <label>Category<span>*</span></label>
+                        <select class="dropdown_form" id="sum_pay_per_category">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Permanent Teacher">Permanent Teacher</option>
+                            <option value="Permanent Admin">Permanent Admin</option>
+                            <option value="Contract Teacher">Contract Teacher</option>
+                            <option value="Contract Admin">Contract Admin</option>
+                        </select>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="SumPay()">SUBMIT</button>
+                            <div id="results_sum_pay_per_category"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Status Pay Per Category -->
+                <fieldset id="status_pay_per_category" style="display: none;">
+                    <legend>Status Pay Per Category</legend>
+                    <div class="item">
+                        <label>Category<span>*</span></label>
+                        <select class="dropdown_form" id="category_status_pay_per_category">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="Permanent Teacher">Permanent Teacher</option>
+                            <option value="Permanent Admin">Permanent Admin</option>
+                            <option value="Contract Teacher">Contract Teacher</option>
+                            <option value="Contract Admin">Contract Admin</option>
+                        </select>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="StatusPayPerCategory()">SUBMIT</button>
+                            <div id="results_status_pay_per_category"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Status Pay For Months -->
+                <fieldset id="status_pay_per_months" style="display: none;">
+                    <legend>Status Pay For Months</legend>
+                    <div class="item">
+                        <label>Start Date<span>*</span></label>
+                        <input id="start_status_pay_per_category" type="text" required/>
+                    </div>
+                    <div class="item">
+                        <label>End Date<span>*</span></label>
+                        <input id="end_status_pay_per_category" type="text" required/>
+                    </div>
+
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="StatusPayPerMonth()">SUBMIT</button>
+                            <div id="results_status_pay_for_months"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- Get Employees -->
+                <fieldset id="get_employees" style="display: none;">
+                    <legend>All Employees</legend>
+                    <fieldset>
+                        <div id="results_get_employees"></div>
+                    </fieldset>
+                </fieldset>
+
+                <!-- User-Wage -->
+                <fieldset id="sql_query" style="display: none;">
+                    <legend>SQL-Query</legend>
+                    <div class="item">
+                        <label>SQL Question<span>*</span></label>
+                        <input id="question_sql_query" type="text" required/>
+                    </div>
+                    <fieldset>
+                        <div class="btn-block">
+                            <button type="button" onclick="SQL_Query()">SUBMIT</button>
+                            <div id="results_question_sql_query"></div>
+                        </div>
+                    </fieldset>
+                </fieldset>
+
+
+            </form>
+        </div>
+
+        <script>
+
+            function myFunction() {
+                var x = document.getElementById("dropdown");
+                if (x.options[x.selectedIndex].text === "Add Employee")
+                {
+                    document.getElementById('add').style.display = 'block';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Fire Employee") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'block';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Edit Employee") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'block';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Edit Bonus") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'block';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Promote Employee") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'block';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Max-Min-Avg") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'block';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "User-Wage") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'block';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Pay-Per-Category") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'block';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Summary-Pay-Per-Category") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'block';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Status-Pay-Per-Category") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'block';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Get-Employees") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'block';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                    GetEmployees();
+                } else if (x.options[x.selectedIndex].text === "SQL-Query") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'block';
+                    document.getElementById('status_pay_per_months').style.display = 'none';
+                } else if (x.options[x.selectedIndex].text === "Status-Pay-For-Months") {
+                    document.getElementById('add').style.display = 'none';
+                    document.getElementById('fire').style.display = 'none';
+                    document.getElementById('edit').style.display = 'none';
+                    document.getElementById('bonus').style.display = 'none';
+                    document.getElementById('promote').style.display = 'none';
+                    document.getElementById('maxminavg').style.display = 'none';
+                    document.getElementById('user_wage').style.display = 'none';
+                    document.getElementById('pay_per_category').style.display = 'none';
+                    document.getElementById('sum_pay').style.display = 'none';
+                    document.getElementById('status_pay_per_category').style.display = 'none';
+                    document.getElementById('get_employees').style.display = 'none';
+                    document.getElementById('sql_query').style.display = 'none';
+                    document.getElementById('status_pay_per_months').style.display = 'block';
+                }
+
+            }
+
+            function end_date_Handler() {
+                var x = document.getElementById("category_add");
+                if (x.options[x.selectedIndex].text === "Contract Teacher" || x.options[x.selectedIndex].text === "Contract Admin") {
+                    document.getElementById('date_end').style.display = 'block';
+                    document.getElementById('basic_pay_add').style.display = 'block';
+                } else if (x.options[x.selectedIndex].text === "Permanent Teacher" || x.options[x.selectedIndex].text === "Permanent Admin") {
+                    document.getElementById('date_end').style.display = 'none';
+                    document.getElementById('basic_pay_add').style.display = 'none';
+                }
+            }
+
+            function children_handler_add() {
+                var x = document.getElementById("children_add");
+                var children = parseInt(x.options[x.selectedIndex].text, 10);
+                var result = "";
+                var options = "";
+                $("#ages_children_add").val('<div id = "ages_children_add"></div>');
+                if (children > 0) {
+                    for (i = 1; i <= 100; i++) {
+                        options += ('<option value="' + i + '">' + i + '</option>');
+                    }
+                    result += ('<div id = "ages_children_add"><label>Children Ages<span>*</span></label>');
+                    for (var i = 0; i < children; i++) {
+                        result += ('<select id="child' + i + '">');
+                        result += options;
+                        result += '</select> <br> <br>';
+                    }
+                    result += '</div>';
+                    $("#ages_children_add").replaceWith(result);
+                } else {
+                    $("#ages_children_add").replaceWith('<div id="ages_children_add"></div>');
+                }
+            }
+
+            function children_handler_edit() {
+                var x = document.getElementById("children_edit");
+                var children = parseInt(x.options[x.selectedIndex].text, 10);
+                var result = "";
+                var options = "";
+                $("#ages_children_edit").val('<div id = "ages_children_edit"></div>');
+                if (children > 0) {
+                    for (i = 1; i <= 100; i++) {
+                        options += ('<option value="' + i + '">' + i + '</option>');
+                    }
+                    result += ('<div id = "ages_children_edit"><label for="Ages">Children Ages<span>*</span></label>');
+                    for (var i = 0; i < children; i++) {
+                        result += ('<select id="child_edit' + i + '">');
+                        result += options;
+                        result += '</select> <br> <br>';
+                    }
+                    result += '</div>';
+                    $("#ages_children_edit").replaceWith(result);
+                } else {
+                    $("#ages_children_edit").replaceWith('<div id="ages_children_edit"></div>');
+                }
+            }
+
+        </script>
+    </body>
+
+</html>
